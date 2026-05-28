@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A&R Scout — Partner with ENKO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0b0a; --bg2:#111311; --panel:#151714;
+  --ink:#f5f2ea; --muted:#9b9c92; --faint:rgba(245,242,234,.10);
+  --green:#1ed760; --green-deep:#0f8f3e; --gold:#e6b84b;
+  --maxw:1180px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"Bricolage Grotesque",sans-serif;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden;
+}
+/* grain + glow atmosphere */
+body::before{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none;
+  background:
+    radial-gradient(900px 600px at 80% -10%, rgba(30,215,96,.10), transparent 60%),
+    radial-gradient(700px 500px at -10% 110%, rgba(230,184,75,.06), transparent 60%);
+}
+body::after{
+  content:""; position:fixed; inset:0; z-index:0; pointer-events:none; opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.deck{position:relative; z-index:1}
+section.slide{
+  min-height:100vh; width:100%;
+  display:flex; align-items:center; justify-content:center;
+  padding:90px 28px; position:relative;
+  scroll-snap-align:start;
+}
+.deck{scroll-snap-type:y proximity}
+.wrap{width:100%; max-width:var(--maxw); margin:0 auto}
+.eyebrow{
+  font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.32em;
+  text-transform:uppercase; color:var(--green); margin-bottom:22px; font-weight:500;
+}
+.eyebrow.gold{color:var(--gold)}
+h1{font-size:clamp(38px,6.4vw,86px); line-height:.98; font-weight:700; letter-spacing:-.025em}
+h2{font-size:clamp(30px,4.6vw,58px); line-height:1.02; font-weight:700; letter-spacing:-.02em}
+.lede{font-size:clamp(17px,1.9vw,23px); line-height:1.5; color:var(--muted); max-width:760px; margin-top:26px; font-weight:400}
+.lede strong{color:var(--ink); font-weight:600}
+.hl{color:var(--green)}
+.hl-g{color:var(--gold)}
+
+/* reveal */
+.r{opacity:0; transform:translateY(26px); transition:opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1)}
+.slide.show .r{opacity:1; transform:none}
+.slide.show .r:nth-child(2){transition-delay:.08s}
+.slide.show .r:nth-child(3){transition-delay:.16s}
+.slide.show .r:nth-child(4){transition-delay:.24s}
+.slide.show .r:nth-child(5){transition-delay:.32s}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}.d4{transition-delay:.4s}.d5{transition-delay:.5s}
+
+/* dot nav */
+.nav{position:fixed; right:26px; top:50%; transform:translateY(-50%); z-index:20; display:flex; flex-direction:column; gap:14px}
+.nav a{width:9px; height:9px; border-radius:50%; background:rgba(245,242,234,.22); transition:.3s; display:block}
+.nav a.active{background:var(--green); transform:scale(1.35); box-shadow:0 0 0 4px rgba(30,215,96,.15)}
+@media(max-width:680px){.nav{display:none}}
+
+/* ornamental carpet divider */
+.carpet{height:14px; width:160px; margin:30px 0; background-image:
+  repeating-linear-gradient(45deg, var(--faint) 0 6px, transparent 6px 12px),
+  repeating-linear-gradient(-45deg, var(--faint) 0 6px, transparent 6px 12px);
+  border-top:1px solid var(--faint); border-bottom:1px solid var(--faint)}
+
+/* hero credibility strip */
+.strip{display:flex; flex-wrap:wrap; gap:10px 0; margin-top:40px; margin-bottom:64px; font-family:"JetBrains Mono",monospace; font-size:12.5px; letter-spacing:.06em; color:var(--muted)}
+.strip span{display:inline-flex; align-items:center}
+.strip span:not(:last-child)::after{content:"·"; margin:0 16px; color:var(--green)}
+.scrollhint{position:absolute; bottom:34px; left:50%; transform:translateX(-50%); font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.25em; color:var(--muted); text-transform:uppercase; display:flex; flex-direction:column; align-items:center; gap:8px}
+.scrollhint .ln{width:1px; height:34px; background:linear-gradient(var(--green),transparent); animation:drop 1.8s infinite}
+@keyframes drop{0%{transform:scaleY(.2);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}50.1%{transform-origin:bottom}100%{transform:scaleY(.2);transform-origin:bottom}}
+
+/* feature cards */
+.cards{display:grid; gap:18px; margin-top:46px}
+.c3{grid-template-columns:repeat(3,1fr)}
+.c4{grid-template-columns:repeat(4,1fr)}
+@media(max-width:860px){.c3,.c4{grid-template-columns:1fr 1fr}}
+@media(max-width:560px){.c3,.c4{grid-template-columns:1fr}}
+.card{background:linear-gradient(160deg,var(--panel),#0d0f0d); border:1px solid var(--faint); border-radius:16px; padding:26px 24px; position:relative; overflow:hidden}
+.card .k{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--green); margin-bottom:14px}
+.card .t{font-size:20px; font-weight:700; line-height:1.12; margin-bottom:10px}
+.card .b{font-size:14.5px; color:var(--muted); line-height:1.5}
+.card.prestige .k{color:var(--gold)}
+.card .badge{position:absolute; top:0; right:0; font-family:"JetBrains Mono",monospace; font-size:10.5px; letter-spacing:.12em; background:var(--green); color:#04140a; padding:6px 12px; border-bottom-left-radius:12px; font-weight:700}
+.card.prestige .badge{background:var(--gold); color:#1c1402}
+
+/* big stat row */
+.stats{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:36px}
+@media(max-width:820px){.stats{grid-template-columns:1fr 1fr}}
+.stat{border:1px solid var(--faint); border-radius:14px; padding:22px 20px; background:rgba(255,255,255,.012)}
+.stat .num{font-family:"JetBrains Mono",monospace; font-weight:700; font-size:clamp(28px,3.4vw,40px); color:var(--green); line-height:1; letter-spacing:-.02em}
+.stat .lab{font-size:12.5px; color:var(--muted); margin-top:12px; letter-spacing:.04em; line-height:1.35}
+
+/* chart */
+.chartbox{margin-top:34px; background:linear-gradient(180deg,#0d100d,#0a0c0a); border:1px solid var(--faint); border-radius:18px; padding:26px 24px 14px}
+.chart-head{display:flex; justify-content:space-between; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:6px}
+.chart-head .ttl{font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.18em; text-transform:uppercase; color:var(--muted)}
+.chart-head .big{font-family:"JetBrains Mono",monospace; font-size:26px; font-weight:700; color:var(--green)}
+svg.growth{width:100%; height:auto; display:block}
+.axislab{font-family:"JetBrains Mono",monospace; font-size:11px; fill:var(--muted)}
+
+/* comp table */
+.tbl{width:100%; border-collapse:collapse; margin-top:34px; font-size:15px; overflow:hidden; border-radius:14px}
+.tbl th,.tbl td{padding:15px 16px; text-align:center; border:1px solid var(--faint)}
+.tbl thead th{background:var(--green); color:#04140a; font-weight:700; font-family:"JetBrains Mono",monospace; font-size:12.5px; letter-spacing:.04em; text-transform:uppercase}
+.tbl thead th:first-child{background:#0c8a3b; color:#eafff0}
+.tbl tbody td:first-child{text-align:left; font-weight:600; font-family:"JetBrains Mono",monospace; font-size:13.5px}
+.tbl tbody tr:nth-child(odd) td{background:rgba(255,255,255,.018)}
+.tbl tbody td{font-family:"JetBrains Mono",monospace; font-weight:500; color:var(--ink)}
+@media(max-width:560px){.tbl th,.tbl td{padding:11px 8px; font-size:13px}}
+
+/* callout chips */
+.chips{display:flex; flex-wrap:wrap; gap:12px; margin-top:26px}
+.chip{font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--ink); border:1px solid var(--faint); border-radius:999px; padding:9px 16px; background:rgba(30,215,96,.05)}
+.chip b{color:var(--green)}
+
+/* example box */
+.exbox{margin-top:26px; border-left:3px solid var(--green); background:linear-gradient(90deg,rgba(30,215,96,.07),transparent); padding:20px 22px; border-radius:0 12px 12px 0}
+.exbox .h{font-family:"JetBrains Mono",monospace; font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--green); margin-bottom:10px}
+.exbox p{font-size:15.5px; line-height:1.6; color:var(--ink)}
+.exbox .pop{color:var(--green); font-weight:700; font-family:"JetBrains Mono",monospace}
+
+/* steps */
+.steps{display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:42px}
+@media(max-width:760px){.steps{grid-template-columns:1fr}}
+.step{position:relative; padding-top:18px}
+.step .no{font-family:"JetBrains Mono",monospace; font-size:13px; color:#04140a; background:var(--green); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; margin-bottom:16px}
+.step .t{font-size:19px; font-weight:700; margin-bottom:8px}
+.step .b{font-size:14.5px; color:var(--muted); line-height:1.5}
+
+/* schedule list */
+.sched{margin-top:34px; border:1px solid var(--faint); border-radius:14px; overflow:hidden}
+.sched .row{display:grid; grid-template-columns:.7fr 1.4fr 1.2fr 1fr; gap:0}
+.sched .row>div{padding:15px 18px; border-bottom:1px solid var(--faint); font-family:"JetBrains Mono",monospace; font-size:14px}
+.sched .row.head>div{background:var(--green); color:#04140a; font-weight:700; font-size:12px; letter-spacing:.06em; text-transform:uppercase}
+.sched .row:last-child>div{border-bottom:none}
+.sched .row .q{font-weight:700; color:var(--green)}
+.sched .row.head .q{color:#04140a}
+.sched .row:nth-child(even)>div{background:rgba(255,255,255,.015)}
+@media(max-width:680px){.sched .row{grid-template-columns:.6fr 1fr} .sched .row>div:nth-child(3),.sched .row>div:nth-child(4){display:none} .schednote{margin-top:14px}}
+
+/* terms list */
+.terms{display:grid; grid-template-columns:1fr 1fr; gap:16px 40px; margin-top:40px}
+@media(max-width:680px){.terms{grid-template-columns:1fr}}
+.term{display:flex; gap:14px; align-items:flex-start}
+.term .mk{color:var(--green); font-family:"JetBrains Mono",monospace; font-weight:700; margin-top:2px}
+.term .tx{font-size:16px; line-height:1.45}
+.term .tx b{font-weight:700}
+.term .tx span{color:var(--muted); font-size:14.5px}
+
+/* CTA */
+.cta{text-align:center}
+.btn{display:inline-flex; align-items:center; gap:12px; margin-top:34px; background:var(--green); color:#04140a; font-family:"Bricolage Grotesque",sans-serif; font-weight:700; font-size:19px; padding:18px 34px; border-radius:999px; text-decoration:none; transition:.25s; border:2px solid var(--green)}
+.btn:hover{background:transparent; color:var(--green); transform:translateY(-2px)}
+.btn .arr{font-family:"JetBrains Mono",monospace}
+.ctafoot{margin-top:42px; font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.1em; color:var(--muted)}
+
+.note{font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--muted); margin-top:20px; line-height:1.6}
+.note.tight{margin-top:14px}
+</style>
+</head>
+<body>
+<nav class="nav" id="nav"></nav>
+<div class="deck" id="deck">
+
+<!-- 1 — HOOK -->
+<section class="slide" id="s1">
+  <div class="wrap">
+    <div class="eyebrow r">A&amp;R Scout · Partnership Brief</div>
+    <h1 class="r">Award-winning in Europe. Scaling in the US — with you.</h1>
+    <p class="lede r">We took an artist from near-zero to <strong>2 million monthly listeners</strong> and <strong>200 million streams</strong>. We put Ukraine on the Eurovision throne. Now we're bringing that same engine into the <span class="hl">United States</span> — and we're building the scout network that rides with us.</p>
+    <div class="strip r">
+      <span>Eurovision 2022 winners</span>
+      <span>Music Moves Europe Award 2026</span>
+      <span>Distributed by Universal Music Group</span>
+    </div>
+  </div>
+  <div class="scrollhint"><span>Scroll</span><span class="ln"></span></div>
+</section>
+
+<!-- 2 — WHO -->
+<section class="slide" id="s2">
+  <div class="wrap">
+    <div class="eyebrow r">The Label</div>
+    <h2 class="r">ENKO — Ukraine's leading independent label.</h2>
+    <p class="lede r">Independent, with the reach of a major: we distribute worldwide through <strong>Universal Music Group</strong>, but we move without major-label politics or roster-slot limits. We work across <strong>Pop, Hip-Hop, Indie and R&amp;B</strong> — and we're built to scale artists, not just release them.</p>
+    <div class="cards c3">
+      <div class="card r d1"><div class="k">Independent</div><div class="t">No gatekeepers</div><div class="b">Decisions move fast. No internal politics, no waiting for a roster slot to open.</div></div>
+      <div class="card r d2"><div class="k">Distribution</div><div class="t">Universal Music Group</div><div class="b">Your signed artists land on every DSP worldwide through our UMG distribution pipeline.</div></div>
+      <div class="card r d3"><div class="k">The Edge</div><div class="t">A real growth engine</div><div class="b">Our marketing team turns streams into income — systematic UGC and Spotify catalog engineering, not playlist favors. We engineer the conditions; the algorithm does the rest.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 3 — EUROVISION / PRESTIGE -->
+<section class="slide" id="s3">
+  <div class="wrap">
+    <div class="eyebrow gold r">Track Record</div>
+    <h2 class="r">This is the roster you'd be representing.</h2>
+    <div class="cards c3">
+      <div class="card prestige r d1">
+        <div class="badge">WINNER</div>
+        <div class="k">Eurovision 2022</div>
+        <div class="t">Kalush Orchestra</div>
+        <div class="b">Won the Eurovision Song Contest with "Stefania" — 631 points, the first rap song ever to win, in front of a 180M+ global audience.</div>
+      </div>
+      <div class="card prestige r d2">
+        <div class="badge">3RD PLACE</div>
+        <div class="k">Eurovision 2024</div>
+        <div class="t">alyona alyona &amp; Jerry Heil</div>
+        <div class="b">"Teresa &amp; Maria" placed 3rd of all Europe, released through ENKO. alyona alyona is a Forbes 30 Under 30 honoree.</div>
+      </div>
+      <div class="card prestige r d3">
+        <div class="badge">WINNER</div>
+        <div class="k">Music Moves Europe 2026</div>
+        <div class="t">Carpetman</div>
+        <div class="b">Won the EU's flagship emerging-artist award — whose past winners include <b style="color:var(--gold)">Dua&nbsp;Lipa, Stromae and Adele.</b></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 — CARPETMAN DATA -->
+<section class="slide" id="s4">
+  <div class="wrap">
+    <div class="eyebrow r">What Our Engine Does</div>
+    <h2 class="r">Carpetman: near-zero to 2M+ monthly listeners.</h2>
+    <div class="chartbox r d1">
+      <div class="chart-head">
+        <span class="ttl">Spotify monthly listeners · 2024 → 2026</span>
+        <span class="big">2.09M</span>
+      </div>
+      <svg class="growth" viewBox="0 0 1000 340" preserveAspectRatio="none" aria-label="Monthly listener growth chart">
+        <defs>
+          <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#1ed760" stop-opacity=".55"/>
+            <stop offset="100%" stop-color="#1ed760" stop-opacity="0"/>
+          </linearGradient>
+        </defs>
+        <!-- gridlines -->
+        <g stroke="rgba(245,242,234,.07)" stroke-width="1">
+          <line x1="0" y1="40" x2="1000" y2="40"/>
+          <line x1="0" y1="120" x2="1000" y2="120"/>
+          <line x1="0" y1="200" x2="1000" y2="200"/>
+          <line x1="0" y1="280" x2="1000" y2="280"/>
+        </g>
+        <!-- area + line: path drawn via JS for animation -->
+        <path id="area" d="" fill="url(#fill)"/>
+        <path id="line" d="" fill="none" stroke="#1ed760" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+        <circle id="endpt" r="6" fill="#1ed760" stroke="#0a0b0a" stroke-width="3"/>
+        <!-- axis labels -->
+        <text class="axislab" x="6" y="332">Jan 2024</text>
+        <text class="axislab" x="330" y="332">Jan 2025</text>
+        <text class="axislab" x="660" y="332">Jan 2026</text>
+        <text class="axislab" x="930" y="332">Now</text>
+      </svg>
+    </div>
+    <div class="stats">
+      <div class="stat r d1"><div class="num">200M</div><div class="lab">Total streams</div></div>
+      <div class="stat r d2"><div class="num">596K</div><div class="lab">Peak daily streams</div></div>
+      <div class="stat r d3"><div class="num">15.3M</div><div class="lab">Playlist reach · 1,419 playlists</div></div>
+      <div class="stat r d4"><div class="num">60%</div><div class="lab">Spotify popularity index</div></div>
+    </div>
+    <p class="note r d4">Music Moves Europe Award 2026 winner · "Feel So Cold" — 25M+ streams. A developing artist we scaled with the exact playbook we'll run in the US.</p>
+  </div>
+</section>
+
+<!-- 5 — ROLE -->
+<section class="slide" id="s5">
+  <div class="wrap">
+    <div class="eyebrow r">Your Role</div>
+    <h2 class="r">You scout. You help close. We scale.</h2>
+    <div class="steps">
+      <div class="step r d1"><div class="no">1</div><div class="t">Spot the talent</div><div class="b">Find promising independent US artists — with 200K+ monthly listeners.</div></div>
+      <div class="step r d2"><div class="no">2</div><div class="t">Make the intro</div><div class="b">Open the conversation and run the first call — solo, or alongside us.</div></div>
+      <div class="step r d3"><div class="no">3</div><div class="t">Close together</div><div class="b">We negotiate the deal alongside you, with you holding the artist relationship. After signing, the artist's growth is fully on ENKO.</div></div>
+    </div>
+    <p class="lede r d4">You source the artist and <strong>stay in the room with us all the way through to signing</strong>. Once the deal is signed, <strong>scaling the artist is on us</strong> — our marketing and distribution team takes over. You're at the <span class="hl">start of our US push</span>: early scouts get first pick of a wide-open market and grow as we grow.</p>
+  </div>
+</section>
+
+<!-- 6 — EARN -->
+<section class="slide" id="s6">
+  <div class="wrap">
+    <div class="eyebrow r">Compensation</div>
+    <h2 class="r">You earn a % of the artist's gross royalties.</h2>
+    <div class="r d1" style="font-family:'JetBrains Mono',monospace; font-size:11.5px; letter-spacing:.05em; color:var(--muted); margin-top:28px">Deal types = royalty split shown as <span style="color:var(--ink)">artist / label</span> *</div>
+    <table class="tbl r d1" style="margin-top:12px">
+      <thead><tr><th>Monthly listeners</th><th>Deal A · 70/30</th><th>Deal B · 75/25</th><th>Deal C · 80/20</th></tr></thead>
+      <tbody>
+        <tr><td>200K – 1M</td><td>3.5%</td><td>3.0%</td><td>2.5%</td></tr>
+        <tr><td>1M – 2M</td><td>4.0%</td><td>3.5%</td><td>3.0%</td></tr>
+        <tr><td>2M – 5M</td><td>4.5%</td><td>4.0%</td><td>3.5%</td></tr>
+        <tr><td>5M +</td><td>5.0%</td><td>4.5%</td><td>4.0%</td></tr>
+      </tbody>
+    </table>
+    <p class="note tight r d2" style="font-size:11.5px">* Deal types are the royalty split between the artist and ENKO — always weighted in the artist's favor (the artist keeps the larger share). The smaller ENKO's cut, the higher your percentage.</p>
+    <div class="chips r d2">
+      <div class="chip">Paid on the artist's <b>GROSS</b> royalties — not the label's cut</div>
+      <div class="chip">Royalty tail: <b>up to 3 years</b> per signed artist</div>
+      <div class="chip"><b>No cap. No base.</b> Pure upside</div>
+    </div>
+    <div class="exbox r d3">
+      <div class="h">Worked example</div>
+      <p>Say an artist generates <span class="pop">$10,000</span> in gross royalties this quarter. At <b>1M–2M</b> listeners on a <b>70/30</b> deal, you earn <span class="pop">4.0% = $400</span> this quarter — about <span class="pop">$1,600 a year</span>. Build a roster of ten artists like this and that's <span class="pop">~$16,000/year</span>, recurring for up to three years.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 7 — PAYOUTS -->
+<section class="slide" id="s7">
+  <div class="wrap">
+    <div class="eyebrow r">Payouts</div>
+    <h2 class="r">Paid quarterly. Transparent every time.</h2>
+    <div class="sched r d1">
+      <div class="row head"><div class="q">Qtr</div><div>Months covered</div><div>Royalty report</div><div>Payment by</div></div>
+      <div class="row"><div class="q">Q1</div><div>December – February</div><div>May 16–22</div><div>June 7</div></div>
+      <div class="row"><div class="q">Q2</div><div>March – May</div><div>Aug 16–22</div><div>September 7</div></div>
+      <div class="row"><div class="q">Q3</div><div>June – August</div><div>Nov 16–22</div><div>December 7</div></div>
+      <div class="row"><div class="q">Q4</div><div>September – November</div><div>Feb 16–22</div><div>March 7</div></div>
+    </div>
+    <p class="lede r d2">Every payment comes with a <strong>written royalty statement</strong> — you see exactly how each dollar is calculated. Paid in <span class="hl">USD</span> via Payoneer, Wise, or bank wire.</p>
+  </div>
+</section>
+
+<!-- 8 — HOW IT WORKS -->
+<section class="slide" id="s8">
+  <div class="wrap">
+    <div class="eyebrow r">The Arrangement</div>
+    <h2 class="r">You work as an independent scout — under your own name.</h2>
+    <div class="terms">
+      <div class="term r d1"><span class="mk">/</span><div class="tx"><b>Independent contractor.</b> <span>You're a freelancer, not an ENKO employee — you represent yourself, not the label.</span></div></div>
+      <div class="term r d2"><span class="mk">/</span><div class="tx"><b>Offers come from ENKO.</b> <span>You open doors; any binding offer is made by ENKO directly. Clean for you, clean for us.</span></div></div>
+      <div class="term r d3"><span class="mk">/</span><div class="tx"><b>Non-exclusive.</b> <span>Keep working with whoever you like. We only ask for fair play on artists already in our pipeline.</span></div></div>
+      <div class="term r d4"><span class="mk">/</span><div class="tx"><b>Work from anywhere.</b> <span>Remote, on your own hours, across the US. No base — uncapped upside.</span></div></div>
+    </div>
+    <div class="carpet r d4"></div>
+  </div>
+</section>
+
+<!-- 9 — CTA -->
+<section class="slide" id="s9">
+  <div class="wrap cta">
+    <div class="eyebrow r" style="display:inline-block">Let's Talk</div>
+    <h1 class="r">Book a 20-minute call.</h1>
+    <p class="lede r" style="margin-left:auto;margin-right:auto">Bring your questions. We'll walk you through the playbook and the numbers in detail — and how we'd ramp you onto the US market.</p>
+    <a class="btn r d2" href="https://calendar.app.google/Kp5kWeiadak1LKc2A" target="_blank" rel="noopener">Schedule your call <span class="arr">→</span></a>
+    <div class="ctafoot r d3">ENKO · independent music label · distributed by Universal Music Group</div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ---- build dot nav ---- */
+const slides=[...document.querySelectorAll('.slide')];
+const nav=document.getElementById('nav');
+slides.forEach((s,i)=>{const a=document.createElement('a');a.href='#'+s.id;a.dataset.i=i;nav.appendChild(a);});
+const dots=[...nav.children];
+
+/* ---- reveal + active dot ---- */
+const io=new IntersectionObserver((es)=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('show');
+      const i=slides.indexOf(e.target);
+      dots.forEach(d=>d.classList.remove('active'));
+      if(dots[i])dots[i].classList.add('active');
+    }
+  });
+},{threshold:.5});
+slides.forEach(s=>io.observe(s));
+
+/* ---- keyboard nav ---- */
+let cur=0;
+function go(i){cur=Math.max(0,Math.min(slides.length-1,i));slides[cur].scrollIntoView({behavior:'smooth'});}
+addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'||e.key==='PageDown'){e.preventDefault();go(cur+1);}
+  if(e.key==='ArrowUp'||e.key==='PageUp'){e.preventDefault();go(cur-1);}
+});
+// track current on scroll
+const io2=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting)cur=slides.indexOf(e.target);});},{threshold:.6});
+slides.forEach(s=>io2.observe(s));
+
+/* ---- growth chart path ---- */
+(function(){
+  // points: [x 0..1, listeners]
+  const pts=[[0,20],[0.08,60],[0.15,120],[0.20,200],[0.25,560],[0.32,600],[0.40,790],[0.50,1450],[0.58,1800],[0.68,1850],[0.75,1700],[0.82,1550],[0.90,1800],[1,2090]];
+  const W=1000,H=340,maxV=2200,top=20,bot=300;
+  const X=t=>t*W;
+  const Y=v=>bot-(v/maxV)*(bot-top);
+  // smooth path (catmull-rom -> bezier)
+  function path(p){
+    let d=`M ${X(p[0][0])} ${Y(p[0][1])}`;
+    for(let i=0;i<p.length-1;i++){
+      const p0=p[i>0?i-1:i], p1=p[i], p2=p[i+1], p3=p[i+2<p.length?i+2:i+1];
+      const c1x=X(p1[0])+(X(p2[0])-X(p0[0]))/6, c1y=Y(p1[1])+(Y(p2[1])-Y(p0[1]))/6;
+      const c2x=X(p2[0])-(X(p3[0])-X(p1[0]))/6, c2y=Y(p2[1])-(Y(p3[1])-Y(p1[1]))/6;
+      d+=` C ${c1x} ${c1y} ${c2x} ${c2y} ${X(p2[0])} ${Y(p2[1])}`;
+    }
+    return d;
+  }
+  const line=path(pts);
+  document.getElementById('line').setAttribute('d',line);
+  document.getElementById('area').setAttribute('d',line+` L ${W} ${bot} L 0 ${bot} Z`);
+  const ep=document.getElementById('endpt');
+  ep.setAttribute('cx',X(1));ep.setAttribute('cy',Y(2090));
+  // draw-on animation
+  const lp=document.getElementById('line');
+  const len=lp.getTotalLength();
+  lp.style.strokeDasharray=len;lp.style.strokeDashoffset=len;
+  const area=document.getElementById('area');area.style.opacity=0;ep.style.opacity=0;
+  const s4=document.getElementById('s4');
+  const obs=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){
+    lp.animate([{strokeDashoffset:len},{strokeDashoffset:0}],{duration:1600,easing:'cubic-bezier(.3,.7,.2,1)',fill:'forwards'});
+    area.animate([{opacity:0},{opacity:1}],{duration:1400,delay:300,fill:'forwards'});
+    ep.animate([{opacity:0},{opacity:1}],{duration:500,delay:1500,fill:'forwards'});
+    obs.disconnect();
+  }});},{threshold:.4});
+  obs.observe(s4);
+})();
+</script>
+</body>
+</html>
